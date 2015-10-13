@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+npm-debug.log
+config/config.js
+pdf
+public
+invoice-application.sublime-project
+invoice-application.sublime-workspace

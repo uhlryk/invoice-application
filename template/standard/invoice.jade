@@ -1,0 +1,174 @@
+doctype html
+meta(charset='utf-8')
+head
+  style.
+    table{
+      border: 1px solid black;
+    }
+    .date-block{
+      float:right;
+    }
+    .date-block:after{
+      content:'';
+      display:block;
+      clear:both;
+    }
+    .detail-block:before{
+      content:'';
+      display:block;
+      clear:both;
+    }
+    .detail-block:after{
+      content:'';
+      display:block;
+      clear:both;
+    }
+    .owner-block{
+      float:left;
+    }
+    .customer-block{
+      float:right;
+    }
+    .invoice-number{
+      text-align:center;
+    }
+    .signature-block > div{
+      width:280px;
+      padding-top:100px;
+      border:1px solid black;
+      font-size:9px;
+    }
+    .signature-block .customer-signature{
+      float:left;
+    }
+    .signature-block .owner-signature{
+      float:right;
+    }
+body
+  div(class='date-block')
+    table
+      tr
+        td Miejsce wystawienia:
+        td= invoice.invoice_city
+      tr
+        td Data wystawienie:
+        td= invoice.invoice_date
+      tr
+        td Data sprzedaży:
+        td= invoice.sale_date
+  div(class='detail-block')
+    div(class='owner-block')
+      table
+        tr
+          td Sprzedawca:
+          td= invoice.Account.firmname_1
+        if invoice.Account.firmname_2
+          tr
+            td
+            td= invoice.Account.firmname_2
+        if invoice.Account.firmname_3
+          tr
+            td
+            td= invoice.Account.firmname_3
+        tr
+          td Adres:
+          td= invoice.Account.address_1
+        if invoice.Account.address_2
+          tr
+            td
+            td= invoice.Account.address_2
+        if invoice.Account.address_3
+          tr
+            td
+            td= invoice.Account.address_3
+        tr
+          td NIP:
+          td= invoice.Account.nip
+    div(class='customer-block')
+      table
+        tr
+          td Nabywca:
+          td= invoice.CustomerDetail.firmname_1
+        if invoice.CustomerDetail.firmname_2
+          tr
+            td
+            td= invoice.CustomerDetail.firmname_2
+        if invoice.CustomerDetail.firmname_3
+          tr
+            td
+            td= invoice.CustomerDetail.firmname_3
+        tr
+          td Adres:
+          td= invoice.CustomerDetail.address_1
+        if invoice.CustomerDetail.address_2
+          tr
+            td
+            td= invoice.CustomerDetail.address_2
+        if invoice.CustomerDetail.address_3
+          tr
+            td
+            td= invoice.CustomerDetail.address_3
+        tr
+          td NIP:
+          td= invoice.CustomerDetail.nip
+  div(class='invoice-number')
+    h1= invoice.invoice_number
+  div(class='items-block')
+    table
+      thead
+        tr
+          th Lp.
+          th Nazwa
+          th Ilość
+          th jm
+          th Cena netto
+          th Stawka VAT
+          th Wartość netto
+          th Kwota VAT
+          th Wartość brutto
+      tbody
+        each invoiceItem, i in invoice.InvoiceItems
+          tr
+            td= i
+            td= invoiceItem.name
+            td= invoiceItem.quantity
+            td= invoiceItem.unit
+            td= invoiceItem.price_net
+            td #{invoiceItem.vat_rate} %
+            td= invoiceItem.value_net
+            td= invoiceItem.value_vat
+            td= invoiceItem.value_gross
+  div(class='tax-rate-block')
+    table
+      thead
+        tr
+          th Stawka VAT
+          th Wartość netto
+          th Kwota VAT
+          th Wartość brutto
+      tbody
+        each valueTaxRate, i in invoice.ValueTaxRates
+          tr
+            td= valueTaxRate.vat_rate
+            td= valueTaxRate.value_net
+            td= valueTaxRate.value_vat
+            td= valueTaxRate.value_gross
+  div(class='all-value-block')
+    h2 Razem do zapłaty: #{invoice.value_gross} #{invoice.currency}
+  div(class='secondary-data-block')
+    table
+      tr
+        td Sposób płatności:
+        td= invoice.payment_method
+      tr
+        td Termin płatności:
+        td= invoice.payment_due
+      tr
+        td Zapłacono:
+        td= invoice.actual_payment
+      tr
+        td Pozostało do zapłaty:
+        td= invoice.value_balance
+  div(class='signature-block')
+    div(class='customer-signature') imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu
+    div(class='owner-signature') imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu

@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+var debug = require('debug')('app');
+var config = require('../config/config');
+var App = require('../app');
+App.init(config);
+App.run(function(server){
+  debug('Express server listening on port ' + server.address().port);
+});
