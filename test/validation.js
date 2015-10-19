@@ -36,7 +36,7 @@ var invoiceCreateData = {
     }
   ],
   currency: "PLN",
-  payment_due: 20
+  payment_due: '20'
 };
 App.init(config);
 describe("Validation", function() {
@@ -54,7 +54,6 @@ describe("Validation", function() {
         nip: "1234566778",
       })
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
@@ -70,7 +69,6 @@ describe("Validation", function() {
         address_1: "11-111 City, Street 1",
       })
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
@@ -96,7 +94,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -104,17 +101,14 @@ describe("Validation", function() {
         done();
       });
     });
-    it('should return 422 status and error model  when call create with actual_payment below 0', function(done) {
+    it('should return 200 status when call create with actual_payment below 0', function(done) {
       var invoiceCreateData2 = JSON.parse(JSON.stringify(invoiceCreateData));
       invoiceCreateData2.actual_payment = -100;
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
-        expect(res.status).to.be.equal(422);
-        expect(res.body.error.details).to.be.an('array');
-        expect(res.body.error.details).to.be.length(1);
-        expect(res.body.error.details).to.include.some.property('message','Validation number or range failed');
+        expect(res.status).to.be.equal(200);
+        expect(res.body.id).to.be.equal(1);
         done();
       });
     });
@@ -124,7 +118,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -138,7 +131,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -152,7 +144,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -166,7 +157,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -180,7 +170,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -194,7 +183,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);
@@ -208,7 +196,6 @@ describe("Validation", function() {
       request(App.app).post('/invoice')
       .send(invoiceCreateData2)
       .end(function (err, res) {
-        console.log(res.body.error.details);
         expect(res.status).to.be.equal(422);
         expect(res.body.error.details).to.be.an('array');
         expect(res.body.error.details).to.be.length(1);

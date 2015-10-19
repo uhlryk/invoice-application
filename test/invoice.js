@@ -33,7 +33,7 @@ var invoiceCreateData = {
     }
   ],
   currency: "PLN",
-  payment_due: 20
+  payment_due: '20'
 };
 App.init(config);
 describe("Invoice API", function() {
@@ -125,7 +125,7 @@ describe("Invoice API", function() {
         done();
       });
     });
-    it('should return success flag  when multiple calls create', function(done) {
+    it('should return success flag  when calls create', function(done) {
       request(App.app).post('/invoice')
       .send(invoiceCreateData)
       .end(function (err, res) {
