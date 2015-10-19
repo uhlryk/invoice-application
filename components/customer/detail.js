@@ -17,9 +17,13 @@ module.exports = function(data, options, models, components, cb){
       customer = customer.toJSON();
       var customerDetail = customer.CustomerDetails[0];
       for(var key in customerDetail){
-        if(customerDetail.hasOwnProperty(key) && key !== 'id'){
-          customer[key] = customerDetail[key];
-        }
+          if(customerDetail.hasOwnProperty(key)){
+            if(key !== 'id'){
+              customer[key] = customerDetail[key];
+            } else {
+              customer.CustomerDetailId = customerDetail[key];
+            }
+          }
       }
       delete customer.CustomerDetails;
       cb(null, {success:true, customer: customer});
