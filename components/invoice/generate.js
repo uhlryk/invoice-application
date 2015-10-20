@@ -1,5 +1,7 @@
-var jadepdf = require('jade-pdf-redline');
+// var jadepdf = require('jade-pdf-redline');
+var jade = require('jade');
 var fs = require("fs");
+var conversion = require("phantom-html-to-pdf")();
 module.exports = function(data, options, models, components, cb){
   components.invoice.detail({id:data.id}, function(err, invoiceData){
     if(err){
@@ -10,26 +12,15 @@ module.exports = function(data, options, models, components, cb){
         invoiceData.invoice.Account = data.account;
         invoiceData.invoice.invoice_date = new Date(invoiceData.invoice.invoice_date).toISOString().substr(0, 10);
         invoiceData.invoice.sale_date = new Date(invoiceData.invoice.sale_date).toISOString().substr(0, 10);
-        var outputStream = fs.createWriteStream(invoicePath);
-        var inputStream = fs.createReadStream('./template/standard/invoice.jade')
-        .pipe(jadepdf({
-          // cssPath: './template/standard/style.css',
-          locals: {
-            invoice:invoiceData.invoice
+        jade.renderFile('./template/standard/invoice.jade', invoiceData, function(error, html){
+          if(error){
+            cb(error);
+          } else {
+            conversion({ html: html }, function(err, pdf) {
+              cb(null,pdf.stream);
+            });
           }
-        }))
-        .pipe(outputStream);
-        outputStream.on('finish', function() {
-          cb(null,{success:true, invoicePath:invoicePath});
         });
-        inputStream.on('error', function(error) {
-          cb(error);
-        });
-        outputStream.on('error', function(error) {
-          cb(error);
-        });
-      } else {
-        cb(null,{success:invoiceData.success,error:invoiceData.error});
       }
     }
   });

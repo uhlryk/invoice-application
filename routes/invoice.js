@@ -65,15 +65,16 @@ router.get('/invoice/:id', function(req, res, next) {
   });
 });
 router.get('/invoice/:id/pdf', function(req, res, next) {
-  req.app.get('components').invoice.generate({id:req.params.id, account: req.app.get('config').account}, function(err, data){
+  req.app.get('components').invoice.generate({id:req.params.id, account: req.app.get('config').account}, function(err, stream){
     if(err){
       next(err);
     } else {
-      if(data.success === true){
-        return res.status(200).download(data.invoicePath);
-      } else {
-        return res.status(404).json({error:data.error});
-      }
+      stream.pipe(res);
+      // if(data.success === true){
+      //   return res.status(200).download(data.invoicePath);
+      // } else {
+      //   return res.status(404).json({error:data.error});
+      // }
     }
   });
 });
