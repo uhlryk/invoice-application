@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   var InvoiceItem = sequelize.define("InvoiceItem", {
     name: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(120),
       allowNull: false,
       validate : {
-        len: [1,255]
+        len: [1,120]
       }
     },
     quantity: {
