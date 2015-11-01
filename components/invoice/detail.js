@@ -1,6 +1,8 @@
 module.exports = function(data, options, models, components, cb){
   models.Invoice.findOne({
-    where: {},
+    where: {
+      id:data.id
+    },
     // attributes: ['id', 'CustomerDataId', 'invoice_city', 'invoice_date', 'sale_date', 'payment_method',
     // 'invoice_number', 'value_net', 'value_vat', 'value_gross', 'actual_payment',
     // 'value_balance', 'currency', 'payment_due'],
